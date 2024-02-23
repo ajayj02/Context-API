@@ -1,26 +1,46 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Dashboard } from "./components/Dashboard"
-import {Landing } from "./components/Landing"
-import "./main.css"
+import { lazy } from "react";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import "./main.css";
 
+const Dashboard = lazy(() => import("./components/Dashboard"))
+const Landing = lazy(() => import("./components/Landing"))
 
 function App() {
-
   return (
-    <div>
-      <div style={{display: "flex",backgroundColor: "black", color: "white"}}>
-          <p className="item">This is the topbar</p>
-          <button className="item">Go to dashboard</button>
-          <button className="item">Go to landing Page</button>
-      </div>
-      <BrowserRouter>
-        <Routes>
-           <Route path="/dashboard" element={<Dashboard />}></Route>
-           <Route path="/" element={<Landing />}></Route>
-        </Routes>
-      </BrowserRouter>
-      </div>
-  )
+    <BrowserRouter>
+      <Appbar />
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+function Appbar() {
+  const navigate = useNavigate();
+
+  return (
+    <div style={{ display: "flex", backgroundColor: "aqua", color: "white" }}>
+      <p className="item">This is the topbar</p>
+      <button
+        className="item"
+        onClick={() => {
+          navigate("/dashboard");
+        }}
+      >
+        Go to dashboard
+      </button>
+      <button
+        className="item"
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Go to landing Page
+      </button>
+    </div>
+  );
+}
+
+export default App;
